@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Friend Finder - Express</title>
+  <!-- Latest compiled and minified CSS & JS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+  <div class="container">
+    <div class="jumbotron">
+      <h1>Friend Survey</h1>
+      <h3>Find a friend</h3>
+      <hr>
+    </div>
+    <div class="row">
+
+      <div class="col-lg-12">
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title"><strong>survey</strong></h3>
+          </div>
+          <div class="panel-body">
+            <form method="POST" role="form">
+
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name">
+              </div>
+
+              <div class="form-group">
+                <label for="photo">Link to picture</label>
+                <input type="text" class="form-control" id="picture">
+              </div>
+          <div class="col-md-6">
+              <div class="form-group">
+                <label for="first">You like food</label>
+                <select input type="number" class="form-control" id="sel1">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="second">You like games</label>
+                <select input type="number" class="form-control" id="sel2">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="third">You like to go outside</label>
+                <select input type="number" class="form-control" id="sel3">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                </select>
+              </div>                        
+              <div class="form-group">
+                <label for="fourth">You to sing</label>
+                <select input type="number" class="form-control" id="sel4">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                </select>
+              </div>         
+              <div class="form-group">
+                <label for="fifth">You like movies</label>
+                <select input type="number" class="form-control" id="sel5">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                </select>
+              </div>
+
+          </div>
+
+            </form>
+            <br>
+            <div class="text-right">
+              <button type="submit" class="btn btn-primary btn-md" id="add-btn"><span class="glyphicon glyphicon-fire"></span> Find friend</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    // Question: What does this code do?
+    $("#add-btn").on("click", function(event) {
+      event.preventDefault();
+      var newCharacter = {
+        name: $("#name").val().trim(),
+        photo: $("#picture").val().trim(),
+        scores:[ 
+        $("#sel1").val().trim(),
+        $("#sel2").val().trim(),
+        $("#sel3").val().trim(),
+        $("#sel4").val().trim(),
+        $("#sel5").val().trim()
+        ]
+      };
+      var match;
+      // Question: What does this code do??
+      $.post("/api/friends", newCharacter)
+      .done(function(data) {
+        match = data;
+        console.log(match);
+        $.get("/result").then(function(){
+          $("body").html(match.name + "<img src='" + match.photo + "'> </img>");
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
